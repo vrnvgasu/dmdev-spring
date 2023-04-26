@@ -10,4 +10,9 @@ public class CompanyRepository {
     this.connectionPool = connectionPool;
   }
 
+  // пример фабричного метода
+  public static CompanyRepository of(ConnectionPool connectionPool) {
+    return new CompanyRepository(connectionPool);
+  }
+
 }

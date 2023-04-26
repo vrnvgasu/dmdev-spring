@@ -3,6 +3,7 @@ package ru.edu;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.edu.database.pool.ConnectionPool;
+import ru.edu.database.repository.CompanyRepository;
 
 public class ApplicationRunner {
 
@@ -10,6 +11,9 @@ public class ApplicationRunner {
     ApplicationContext context = new ClassPathXmlApplicationContext("application.xml");
     System.out.println(context.getBean("p2", ConnectionPool.class));
     System.out.println(context.getBean("driver", String.class));
+
+    CompanyRepository companyRepository = context.getBean("companyRepository", CompanyRepository.class);
+    System.out.println(companyRepository);
   }
 
 }
