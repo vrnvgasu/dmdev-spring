@@ -14,6 +14,11 @@
       </list>
     </constructor-arg>
     <constructor-arg name="properties" type="java.util.Map">
+      <null/> <!--при создании через конструктор указываем null-->
+    </constructor-arg>
+
+    <!--DI через сеттер-->
+    <property name="properties">
       <map>
         <entry key="url" value="postgresurl"/>
         <entry key="password" value="123"/>
@@ -21,7 +26,7 @@
         value-ref="driver" - id бина-->
         <entry key="driver" value-ref="driver"/>
       </map>
-    </constructor-arg>
+    </property>
   </bean>
   <!--  <bean id="pool2" name="p4" class="ru.edu.database.pool.ConnectionPool"/>-->
 
