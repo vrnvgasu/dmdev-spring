@@ -8,12 +8,13 @@ import ru.edu.database.repository.CompanyRepository;
 public class ApplicationRunner {
 
   public static void main(String[] args) {
-    ApplicationContext context = new ClassPathXmlApplicationContext("application.xml");
-    System.out.println(context.getBean("p2", ConnectionPool.class));
-    System.out.println(context.getBean("driver", String.class));
+    try(var context = new ClassPathXmlApplicationContext("application.xml")) {
+      System.out.println(context.getBean("p2", ConnectionPool.class));
+      System.out.println(context.getBean("driver", String.class));
 
-    CompanyRepository companyRepository = context.getBean("companyRepository", CompanyRepository.class);
-    System.out.println(companyRepository);
+      CompanyRepository companyRepository = context.getBean("companyRepository", CompanyRepository.class);
+      System.out.println(companyRepository);
+    }
   }
 
 }
