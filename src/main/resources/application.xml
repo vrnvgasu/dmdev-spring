@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+                             http://www.springframework.org/schema/beans/spring-beans.xsd
+                             http://www.springframework.org/schema/context
+                             http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+<!--  &lt;!&ndash;подключаем настройки application.properties&ndash;&gt;-->
+<!--  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
+<!--    &lt;!&ndash;в value через запятую указываем файлы с настройками&ndash;&gt;-->
+<!--    <property name="locations" value="classpath:application.properties"/>-->
+<!--  </bean>-->
+  <!--вместо bean с PropertySourcesPlaceholderConfigurer,
+  если в beans задан атрибут xmlns:context-->
+  <context:property-placeholder location="classpath:application.properties"/>
 
   <bean id="pool1" name="p1,p2,p3" class="ru.edu.database.pool.ConnectionPool"
   init-method="init"
   destroy-method="destroy">
-    <constructor-arg name="username" type="java.lang.String" ref="driver"/>
-    <constructor-arg name="poolSize" type="java.lang.Integer" value="10"/>
+    <constructor-arg name="username" type="java.lang.String" value="${db.username}"/>
+    <constructor-arg name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
     <constructor-arg name="args" type="java.util.List">
       <list>
         <value>--arg1=value1</value>
@@ -26,14 +39,24 @@
         <entry key="password" value="123"/>
         <!--value-ref - ссылка на другой бин
         value-ref="driver" - id бина-->
-        <entry key="driver" value-ref="driver"/>
+
+        <!--#{} позволяет обращаться к бинам и писать по факту обычный java код-->
+        <entry key="driver" value="#{driver.substring(3)}"/>
+        <entry key="test" value="#{driver.length() > 10}"/> <!--Получим в test boolean-->
+        <!--можно к классам обращаться через T() внутри #{}. Пример: T(Math).random() -->
+        <entry key="test" value="#{driver.length() > T(Math).random() * 10}"/>
+        <!--парсим строку ${db.hosts} в массив строк-->
+        <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>
+        <!--обратились к свойствам системы-->
+        <entry key="currenUser" value="#{systemProperties['user.name']}"/>
       </map>
     </property>
   </bean>
   <!--  <bean id="pool2" name="p4" class="ru.edu.database.pool.ConnectionPool"/>-->
 
   <bean class="java.lang.String" id="driver">
-    <constructor-arg type="java.lang.String" value="PostgresDriver"/>
+    <!--используем переменные из application.properties через ${}-->
+    <constructor-arg type="java.lang.String" value="${db.driver}"/>
   </bean>
 
   <!--Создание бина через фабричный метод-->
