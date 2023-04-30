@@ -16,6 +16,9 @@
   если в beans задан атрибут xmlns:context-->
   <context:property-placeholder location="classpath:application.properties"/>
 
+  <bean class="ru.edu.bfpp.LogBeanFactoryPostProcessor"/>
+  <bean class="ru.edu.bfpp.VerifyPropertyBeanFactoryPostProcessor"/>
+
   <bean id="pool1" name="p1,p2,p3" class="ru.edu.database.pool.ConnectionPool"
   init-method="init"
   destroy-method="destroy">
