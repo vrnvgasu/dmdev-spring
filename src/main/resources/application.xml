@@ -16,12 +16,17 @@
   если в beans задан атрибут xmlns:context-->
   <context:property-placeholder location="classpath:application.properties"/>
 
+  <!--вместо бина CommonAnnotationBeanPostProcessor-->
+  <context:annotation-config/>
+
   <bean class="ru.edu.bfpp.LogBeanFactoryPostProcessor"/>
   <bean class="ru.edu.bfpp.VerifyPropertyBeanFactoryPostProcessor"/>
 
-  <bean id="pool1" name="p1,p2,p3" class="ru.edu.database.pool.ConnectionPool"
-  init-method="init"
-  destroy-method="destroy">
+  <!--чтобы работали аннотации бинов-->
+  <!--вместо него можно указать <context:annotation-config/>-->
+<!--  <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>-->
+
+  <bean id="pool1" name="p1,p2,p3" class="ru.edu.database.pool.ConnectionPool">
     <constructor-arg name="username" type="java.lang.String" value="${db.username}"/>
     <constructor-arg name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
     <constructor-arg name="args" type="java.util.List">

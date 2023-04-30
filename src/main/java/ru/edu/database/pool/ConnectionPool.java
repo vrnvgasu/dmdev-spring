@@ -2,6 +2,8 @@ package ru.edu.database.pool;
 
 import java.util.List;
 import java.util.Map;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.InitializingBean;
 
 public class ConnectionPool implements InitializingBean {
@@ -22,6 +24,7 @@ public class ConnectionPool implements InitializingBean {
 		this.properties = properties;
 	}
 
+	@PostConstruct
 	private void init() {
 		System.out.println("Init connection pool");
 	}
@@ -32,6 +35,7 @@ public class ConnectionPool implements InitializingBean {
 	}
 
 	// отработает при явной закрытии контекста через close()
+	@PreDestroy
 	private void destroy() {
 		System.out.println("Clean connection pool");
 	}
