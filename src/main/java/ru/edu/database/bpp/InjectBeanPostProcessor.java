@@ -35,6 +35,11 @@ public class InjectBeanPostProcessor implements
   }
 
   @Override
+  public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
+  }
+
+  @Override
   // DI контекса спринга из ApplicationContextAware
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;

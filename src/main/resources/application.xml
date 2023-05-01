@@ -23,6 +23,8 @@
   <bean class="ru.edu.bfpp.VerifyPropertyBeanFactoryPostProcessor"/>
 
   <bean class="ru.edu.database.bpp.InjectBeanPostProcessor"></bean>
+  <bean class="ru.edu.database.bpp.TransactionBeanPostProcessor"></bean>
+  <bean class="ru.edu.database.bpp.AuditingBeanPostProcessor"></bean>
 
   <!--чтобы работали аннотации бинов-->
   <!--вместо него можно указать <context:annotation-config/>-->

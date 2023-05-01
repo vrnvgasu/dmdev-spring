@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.edu.database.pool.ConnectionPool;
 import ru.edu.database.repository.CompanyRepository;
+import ru.edu.database.repository.CrudRepository;
 
 public class ApplicationRunner {
 
@@ -12,8 +13,8 @@ public class ApplicationRunner {
       var connectionPool = context.getBean("p2", ConnectionPool.class);
       System.out.println(context.getBean("driver", String.class));
 
-      CompanyRepository companyRepository = context.getBean("companyRepository", CompanyRepository.class);
-      System.out.println(companyRepository);
+      var companyRepository = context.getBean("companyRepository", CrudRepository.class);
+      System.out.println(companyRepository.findById(1));
     }
   }
 
