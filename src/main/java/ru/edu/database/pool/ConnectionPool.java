@@ -9,9 +9,12 @@ import org.springframework.beans.factory.InitializingBean;
 public class ConnectionPool implements InitializingBean {
 
 	private String username;
-	private final Integer poolSize;
+	private Integer poolSize;
 	private List<Object> args;
 	private Map<String, Object> properties;
+
+	public ConnectionPool() {
+	}
 
 	public ConnectionPool(String username, Integer poolSize, List<Object> args, Map<String, Object> properties) {
 		this.username = username;
