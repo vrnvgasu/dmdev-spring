@@ -3,35 +3,31 @@ package ru.edu.database.repository;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 import ru.edu.database.bpp.Auditing;
-import ru.edu.database.bpp.InjectBean;
 import ru.edu.database.bpp.Transaction;
 import ru.edu.database.entity.Company;
 import ru.edu.database.pool.ConnectionPool;
 
+@Repository
 @Transaction
 @Auditing
 public class CompanyRepository implements CrudRepository<Integer, Company> {
 
-//  @Resource(name = "pool1") // java EE спецификация
-//  @Autowired // Аннотация спринга
-//  @Qualifier("pool1")
-  private ConnectionPool pool1;
+  private final ConnectionPool pool1;
 
-  @Autowired
-  private List<ConnectionPool> connectionPools;
+  private final List<ConnectionPool> connectionPools;
 
-  // подтянет данные из src/main/resources/application.properties
-  @Value("${db.pool.size}")
-  private Integer poolSize;
+  private final Integer poolSize;
 
-  @Autowired
-  public void setPool1(ConnectionPool pool1) {
+  public CompanyRepository(
+    ConnectionPool pool1,
+    List<ConnectionPool> connectionPools,
+    @Value("${db.pool.size}") Integer poolSize) {
     this.pool1 = pool1;
+    this.connectionPools = connectionPools;
+    this.poolSize = poolSize;
   }
 
   @Override

@@ -5,9 +5,11 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
 // своя костыльная реализация Autowired
+@Component
 public class InjectBeanPostProcessor implements
   // для реализации метод пост процесса
   // для начала реализуем postProcessBeforeInitialization

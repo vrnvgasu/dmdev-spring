@@ -7,6 +7,9 @@
                              http://www.springframework.org/schema/context
                              http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
+  <!--Ищет бины в пакете с аннотациями: @Component, @Repository, @Service, @Controller-->
+  <context:component-scan base-package="ru.edu"/>
+
 <!--  &lt;!&ndash;подключаем настройки application.properties&ndash;&gt;-->
 <!--  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
 <!--    &lt;!&ndash;в value через запятую указываем файлы с настройками&ndash;&gt;-->
@@ -16,63 +19,44 @@
   если в beans задан атрибут xmlns:context-->
   <context:property-placeholder location="classpath:application.properties"/>
 
-  <!--вместо бина CommonAnnotationBeanPostProcessor-->
-  <context:annotation-config/>
 
-  <bean class="ru.edu.bfpp.LogBeanFactoryPostProcessor"/>
-  <bean class="ru.edu.bfpp.VerifyPropertyBeanFactoryPostProcessor"/>
+  <!-- Пока закомментировали на будущее,
+  т.к. не можем задать сложные типы в конструкторе через @Component -->
+<!--  <constructor-arg name="args" type="java.util.List">-->
+<!--    <list>-->
+<!--      <value>&#45;&#45;arg1=value1</value>-->
+<!--      <value>&#45;&#45;arg2=value2</value>-->
+<!--      <ref bean="driver"/>-->
+<!--    </list>-->
+<!--  </constructor-arg>-->
+<!--  &lt;!&ndash;DI через сеттер&ndash;&gt;-->
+<!--  <property name="properties">-->
+<!--    <map>-->
+<!--      <entry key="url" value="postgresurl"/>-->
+<!--      <entry key="password" value="123"/>-->
+<!--      &lt;!&ndash;value-ref - ссылка на другой бин-->
+<!--      value-ref="driver" - id бина&ndash;&gt;-->
 
-  <bean class="ru.edu.database.bpp.InjectBeanPostProcessor"></bean>
-  <bean class="ru.edu.database.bpp.TransactionBeanPostProcessor"></bean>
-  <bean class="ru.edu.database.bpp.AuditingBeanPostProcessor"></bean>
+<!--      &lt;!&ndash;#{} позволяет обращаться к бинам и писать по факту обычный java код&ndash;&gt;-->
+<!--      <entry key="driver" value="#{driver.substring(3)}"/>-->
+<!--      <entry key="test" value="#{driver.length() > 10}"/> &lt;!&ndash;Получим в test boolean&ndash;&gt;-->
+<!--      &lt;!&ndash;можно к классам обращаться через T() внутри #{}. Пример: T(Math).random() &ndash;&gt;-->
+<!--      <entry key="test" value="#{driver.length() > T(Math).random() * 10}"/>-->
+<!--      &lt;!&ndash;парсим строку ${db.hosts} в массив строк&ndash;&gt;-->
+<!--      <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>-->
+<!--      &lt;!&ndash;обратились к свойствам системы&ndash;&gt;-->
+<!--      <entry key="currenUser" value="#{systemProperties['user.name']}"/>-->
+<!--    </map>-->
+<!--  </property>-->
 
-  <!--чтобы работали аннотации бинов-->
-  <!--вместо него можно указать <context:annotation-config/>-->
-<!--  <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>-->
-
-  <bean id="pool2" class="ru.edu.database.pool.ConnectionPool"/>
-  <bean id="pool1" name="p1,p2,p3" class="ru.edu.database.pool.ConnectionPool">
-    <constructor-arg name="username" type="java.lang.String" value="${db.username}"/>
-    <constructor-arg name="poolSize" type="java.lang.Integer" value="${db.pool.size}"/>
-    <constructor-arg name="args" type="java.util.List">
-      <list>
-        <value>--arg1=value1</value>
-        <value>--arg2=value2</value>
-        <ref bean="driver"/>
-      </list>
-    </constructor-arg>
-    <constructor-arg name="properties" type="java.util.Map">
-      <null/> <!--при создании через конструктор указываем null-->
-    </constructor-arg>
-
-    <!--DI через сеттер-->
-    <property name="properties">
-      <map>
-        <entry key="url" value="postgresurl"/>
-        <entry key="password" value="123"/>
-        <!--value-ref - ссылка на другой бин
-        value-ref="driver" - id бина-->
-
-        <!--#{} позволяет обращаться к бинам и писать по факту обычный java код-->
-        <entry key="driver" value="#{driver.substring(3)}"/>
-        <entry key="test" value="#{driver.length() > 10}"/> <!--Получим в test boolean-->
-        <!--можно к классам обращаться через T() внутри #{}. Пример: T(Math).random() -->
-        <entry key="test" value="#{driver.length() > T(Math).random() * 10}"/>
-        <!--парсим строку ${db.hosts} в массив строк-->
-        <entry key="hosts" value="#{'${db.hosts}'.split(',')}"/>
-        <!--обратились к свойствам системы-->
-        <entry key="currenUser" value="#{systemProperties['user.name']}"/>
-      </map>
-    </property>
-  </bean>
+  <!--Пока не можем объявить второй бин ConnectionPool через @Component. На будущее -->
   <!--  <bean id="pool2" name="p4" class="ru.edu.database.pool.ConnectionPool"/>-->
 
+  <!--Пока не можем объявить бин String через @Component. Он в ядре java
+  На будущее -->
   <bean class="java.lang.String" id="driver">
     <!--используем переменные из application.properties через ${}-->
     <constructor-arg type="java.lang.String" value="${db.driver}"/>
   </bean>
-
-  <!--Создание бина через фабричный метод-->
-  <bean name="companyRepository" class="ru.edu.database.repository.CompanyRepository"/>
 
 </beans>
