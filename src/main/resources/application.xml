@@ -8,7 +8,16 @@
                              http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
   <!--Ищет бины в пакете с аннотациями: @Component, @Repository, @Service, @Controller-->
-  <context:component-scan base-package="ru.edu"/>
+  <context:component-scan base-package="ru.edu"
+  annotation-config="true"
+  use-default-filters="false">
+    <!--Ищем все аннотации @Component - по умолчанию поведение при true-->
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    <!--все классы с интерфейсом CrudRepository создаются, как бин-->
+    <context:include-filter type="assignable" expression="ru.edu.database.repository.CrudRepository"/>
+    <!--все классы по регулярке в пакете ru.edu. с окончание на Repository создаются, как бин-->
+    <context:include-filter type="regex" expression="ru\.edu\..+Repository"/>
+  </context:component-scan>
 
 <!--  &lt;!&ndash;подключаем настройки application.properties&ndash;&gt;-->
 <!--  <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
