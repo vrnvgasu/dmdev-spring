@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -47,6 +48,10 @@ public class ApplicationConfiguration {
     return new ConnectionPool("test-pool", 25);
   }
 
+  @Profile("prod") // только когда профайл prod
+//  @Profile("!prod") // только когда профайл НЕ prod
+//  @Profile("prod@web") // только когда профайл prod И web
+//  @Profile("prod|web") // только когда профайл prod ИЛИ web
   @Bean
   // пытаемся в DI найти бин с id "pool2" (по названию переменной)
   // можем искать id через @Qualifier("pool2")

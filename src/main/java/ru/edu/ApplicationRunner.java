@@ -13,7 +13,16 @@ public class ApplicationRunner {
 
   public static void main(String[] args) {
 //    try(var context = new ClassPathXmlApplicationContext("application.xml")) {
-    try(var context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class)) {
+//    try(var context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class)) {
+
+    // не можем сразу передать ApplicationConfiguration в конструктор контекста,
+    // т.к. тогда не сработает context.refresh()
+    try(var context = new AnnotationConfigApplicationContext()) {
+      context.register(ApplicationConfiguration.class);
+      // установить профайл системы (можно несколько)
+      context.getEnvironment().setActiveProfiles("web", "prod");
+      context.refresh(); // обновить контекст, чтобы пересоздать бины с профайлами выше
+
       var connectionPool = context.getBean("pool1", ConnectionPool.class);
 //      System.out.println(context.getBean("driver", String.class));
 
