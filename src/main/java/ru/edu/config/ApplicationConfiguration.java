@@ -20,7 +20,7 @@ import ru.web.config.WebConfiguration;
 // можно подключить xml и читать бины также оттуда
 //@ImportResource("classpath:application.xml")
 @Import(WebConfiguration.class)
-@Configuration
+@Configuration(/*proxyBeanMethods = false*/)
 // вместо <context:property-placeholder location="classpath:application.properties"/>
 // можно file или http
 @PropertySource("classpath:application.properties")
@@ -42,11 +42,23 @@ public class ApplicationConfiguration {
     return new ConnectionPool(username, pollSize);
   }
 
+  @Bean // id бина - "pool3" - из названия метода
+  public ConnectionPool pool3() {
+    return new ConnectionPool("test-pool", 25);
+  }
+
   @Bean
   // пытаемся в DI найти бин с id "pool2" (по названию переменной)
   // можем искать id через @Qualifier("pool2")
   public UserRepository userRepository2(ConnectionPool pool2) {
     return new UserRepository(pool2);
+  }
+
+  @Bean
+  public UserRepository userRepository3() {
+    // сделали DI обращаясь к методу.
+    // нормально, если бин без зависимостей, т.е. ничего не надо передавать в метод pool3()
+    return new UserRepository(pool3());
   }
 
 }
