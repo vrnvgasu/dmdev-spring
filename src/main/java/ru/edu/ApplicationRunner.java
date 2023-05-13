@@ -8,6 +8,7 @@ import ru.edu.database.pool.ConnectionPool;
 import ru.edu.database.repository.CompanyRepository;
 import ru.edu.database.repository.CrudRepository;
 import ru.edu.database.repository.UserRepository;
+import ru.edu.service.CompanyService;
 
 public class ApplicationRunner {
 
@@ -29,8 +30,8 @@ public class ApplicationRunner {
       var companyRepository = context.getBean("companyRepository", CrudRepository.class);
       System.out.println(companyRepository.findById(1));
 
-//      var userRepository = context.getBean(UserRepository.class);
-//      System.out.println(userRepository);
+      var companyService = context.getBean(CompanyService.class);
+      companyService.findById(1);
     }
   }
 
