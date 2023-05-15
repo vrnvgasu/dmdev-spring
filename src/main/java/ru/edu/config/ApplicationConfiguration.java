@@ -22,15 +22,6 @@ import ru.web.config.WebConfiguration;
 //@ImportResource("classpath:application.xml")
 @Import(WebConfiguration.class)
 @Configuration(/*proxyBeanMethods = false*/)
-// вместо <context:property-placeholder location="classpath:application.properties"/>
-// можно file или http
-@PropertySource("classpath:application.properties")
-// вместо <context:component-scan
-@ComponentScan(basePackages = "ru.edu", useDefaultFilters = false, includeFilters = {
-  @Filter(type = FilterType.ANNOTATION, value = Component.class),
-  @Filter(type = FilterType.ASSIGNABLE_TYPE, value = CrudRepository.class),
-  @Filter(type = FilterType.REGEX, pattern = "ru\\.edu\\..+Repository")
-})
 public class ApplicationConfiguration {
 
   // название бина: название метода или название в аннотации @Bean
