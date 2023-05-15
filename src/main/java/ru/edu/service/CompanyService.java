@@ -1,6 +1,8 @@
 package ru.edu.service;
 
 import java.util.Optional;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import ru.edu.database.entity.Company;
@@ -10,6 +12,7 @@ import ru.edu.listener.entity.AccessType;
 import ru.edu.listener.entity.EntityEvent;
 
 @Service
+@RequiredArgsConstructor
 public class CompanyService {
 
   private final CrudRepository<Integer, Company> companyRepository;
@@ -18,14 +21,7 @@ public class CompanyService {
   // интерфейс, который публикует события (ивенты)
   private final ApplicationEventPublisher eventPublisher;
 
-  public CompanyService(CrudRepository<Integer, Company> companyRepository, UserService userService,
-    ApplicationEventPublisher eventPublisher) {
-    this.companyRepository = companyRepository;
-    this.userService = userService;
-    this.eventPublisher = eventPublisher;
-  }
-
-  public Optional<CompanyReadDto> findById(Integer id) {
+  public Optional<CompanyReadDto> findById(@NonNull Integer id) {
     return companyRepository.findById(id)
       .map(entity -> {
         // вызываем свой кастомный ивент EntityEvent
