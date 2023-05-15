@@ -1,0 +1,10 @@
+db:
+  username: ${username.value:my_user}
+  password: qwerty
+  pool:
+    size: 45
+  driver: PostgresDriver
+  url: postgres:5439
+  hosts: localhost,127.0.0.1
+
+#spring.profile.active: prod
