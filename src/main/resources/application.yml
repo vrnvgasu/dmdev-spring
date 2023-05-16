@@ -19,3 +19,12 @@ db:
     first: 123
     second: 567
     third: test
+
+logging:
+  level:
+    #выводим только WARN и выше
+    root: WARN
+    # INFO для логгера из ConnectionPool
+    ru.edu.database.pool.ConnectionPool: INFO
+    # INFO для логгера из пакета
+    ru.edu.database.pool: INFO
