@@ -28,3 +28,7 @@ logging:
     ru.edu.database.pool.ConnectionPool: INFO
     # INFO для логгера из пакета
     ru.edu.database.pool: INFO
+  file:
+    name: my_log.log
+#    в корень проекта
+    path: /
