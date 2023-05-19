@@ -23,7 +23,7 @@ db:
 logging:
   level:
     #выводим только WARN и выше
-    root: WARN
+    root: INFO
     # INFO для логгера из ConnectionPool
     ru.edu.database.pool.ConnectionPool: INFO
     # INFO для логгера из пакета
@@ -32,3 +32,17 @@ logging:
     name: my_log.log
 #    в корень проекта
     path: /
+
+spring:
+#  минимальные настройки для jpa
+  datasource:
+    url: jdbc:postgresql://localhost:5439/db_dmdev_spring
+    username: user
+    password: qwerty
+    driverClassName: org.postgresql.Driver
+  jpa:
+    properties:
+      # опциональные настройки для hibernate
+      hibernate:
+        show_sql: true
+        format_sql: true
