@@ -35,6 +35,9 @@ public class TransactionBeanPostProcessor implements BeanPostProcessor {
           try {
             // вызываем сам метод (работа с БД)
             return method.invoke(bean, args);
+          } catch (Exception e) {
+            System.out.println("Rollback transaction");
+            throw e;
           } finally {
             System.out.println("Close transaction ...");
           }
