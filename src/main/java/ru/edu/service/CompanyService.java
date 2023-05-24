@@ -6,8 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.edu.database.entity.Company;
-import ru.edu.database.repository.CrudRepository;
+import ru.edu.database.repository.CompanyRepository;
 import ru.edu.dto.CompanyReadDto;
 import ru.edu.listener.entity.AccessType;
 import ru.edu.listener.entity.EntityEvent;
@@ -17,7 +16,7 @@ import ru.edu.listener.entity.EntityEvent;
 @Transactional
 public class CompanyService {
 
-  private final CrudRepository<Integer, Company> companyRepository;
+  private final CompanyRepository companyRepository;
   private final UserService userService;
 
   // интерфейс, который публикует события (ивенты)

@@ -1,6 +1,6 @@
 package ru.edu.service;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.ApplicationEventPublisher;
 import ru.edu.database.entity.Company;
-import ru.edu.database.repository.CrudRepository;
+import ru.edu.database.repository.CompanyRepository;
 import ru.edu.dto.CompanyReadDto;
 import ru.edu.listener.entity.EntityEvent;
 
@@ -24,7 +24,7 @@ class CompanyServiceTest {
   private static final Integer COMPANY_ID = 1;
 
   @Mock
-  private CrudRepository<Integer, Company> companyRepository;
+  private CompanyRepository companyRepository;
   @Mock
   private UserService userService;
   @Mock
