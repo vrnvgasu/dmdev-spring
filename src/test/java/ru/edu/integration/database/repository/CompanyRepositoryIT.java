@@ -7,32 +7,34 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.annotation.Commit;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import ru.edu.database.entity.Company;
 import ru.edu.integration.annotation.IT;
 
 @IT
 @RequiredArgsConstructor
-// @Transactional дает тестам работать с БД
-@Transactional // лучше из спринга
 //@Rollback // используется по умолчанию в тестах для каждого метода
 //@Commit // вместо @Rollback делает коммит после каждого теста
-class CompanyRepository {
+class CompanyRepositoryIT {
 
   // можем делать DI, т.к. в @IT подключен @SpringBootTest
   private final EntityManager entityManager;
 
+  private final TransactionTemplate transactionTemplate;
+
   @Test
   void findById() {
-    var company = entityManager.find(Company.class, 1);
+    // сможет выполнить код с БД внутри бина TransactionTemplate,
+    // даже если нет аннотации @Transactional (засунули ее в @IT)
+    transactionTemplate.executeWithoutResult(transaction -> {
+      var company = entityManager.find(Company.class, 1);
 
-    assertNotNull(company);
-    assertThat(company.getLocales())
+      assertNotNull(company);
+      assertThat(company.getLocales())
         .hasSize(2);
 
-    System.out.println(company);
+      System.out.println(company);
+    });
   }
 
   @Test
