@@ -1,15 +1,28 @@
 package ru.edu.database.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import ru.edu.database.pool.ConnectionPool;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import ru.edu.database.entity.User;
 
-@Component
-@RequiredArgsConstructor
-public class UserRepository {
+public interface UserRepository extends JpaRepository<User, Long> {
 
-  @Qualifier("pool2")
-  private final ConnectionPool connectionPool;
+  // like с % - это фишка спринга.
+  // HQL (обрабатывает SimpleJpaQuery) из коробки это не поддерживает
+  @Query("""
+    select u from User u
+    where u.firstname like %:firstName%
+    and u.lastname like %:lastName%
+    """)
+  List<User> findAllBy(String firstName, String lastName);
+
+  // обычно нативные запросы (обрабатывает NativeJpaQuery) используют для проекций
+  @Query(value = """
+    SELECT u.* 
+    FROM users u 
+    WHERE u.username = :username
+    """,
+    nativeQuery = true)
+  List<User> findByUsername(String username);
 
 }

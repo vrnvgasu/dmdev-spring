@@ -32,22 +32,4 @@ public class ApplicationConfiguration {
     return new ConnectionPool("test-pool", 25);
   }
 
-  @Profile("prod") // только когда профайл prod
-//  @Profile("!prod") // только когда профайл НЕ prod
-//  @Profile("prod@web") // только когда профайл prod И web
-//  @Profile("prod|web") // только когда профайл prod ИЛИ web
-  @Bean
-  // пытаемся в DI найти бин с id "pool2" (по названию переменной)
-  // можем искать id через @Qualifier("pool2")
-  public UserRepository userRepository2(ConnectionPool pool2) {
-    return new UserRepository(pool2);
-  }
-
-  @Bean
-  public UserRepository userRepository3() {
-    // сделали DI обращаясь к методу.
-    // нормально, если бин без зависимостей, т.е. ничего не надо передавать в метод pool3()
-    return new UserRepository(pool3());
-  }
-
 }
