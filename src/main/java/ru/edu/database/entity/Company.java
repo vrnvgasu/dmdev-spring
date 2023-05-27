@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "company")
+@NamedQuery(
+  name = "Company.findByName",
+  query = "select c from Company c where lower(c.name) = lower(:name2)"
+)
 public class Company implements BaseEntity<Integer> {
 
   @Id
