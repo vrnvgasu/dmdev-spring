@@ -1,18 +1,17 @@
 package ru.edu.database.repository;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.Repository;
 import ru.edu.database.entity.Company;
 
-@org.springframework.stereotype.Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
-  // уже реализованы в JpaRepository
-//  Optional<Company> findById(Integer id);
+  // будет строить запрос из названия метода по регулярке с помощью реализации PartTreeJpaQuery
+  Optional<Company> findByName(String name);
 
-  // уже реализованы в JpaRepository
-//  void delete(Company id);
+  // Containing - аналог LIKE %fragment%
+  // IgnoreCase - просто приводит в where все к upper
+  List<Company> findAllByNameContainingIgnoreCase(String fragment);
 
 }

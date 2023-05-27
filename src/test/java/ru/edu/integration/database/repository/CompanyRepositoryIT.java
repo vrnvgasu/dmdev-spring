@@ -30,6 +30,29 @@ class CompanyRepositoryIT {
   private final CompanyRepository companyRepository;
 
   @Test
+  void checkFindByQueries() {
+    /*
+    select
+        company0_.id as id1_1_,
+        company0_.name as name2_1_
+    from company company0_
+    where
+        company0_.name=?
+     */
+    companyRepository.findByName("Google");
+
+    /*
+    select
+        company0_.id as id1_1_,
+        company0_.name as name2_1_
+    from company company0_
+    where
+        upper(company0_.name) like upper(?) escape ?
+     */
+    companyRepository.findAllByNameContainingIgnoreCase("a");
+  }
+
+  @Test
   void delete() {
     var maybeCompany = companyRepository.findById(APPLE_ID);
     assertTrue(maybeCompany.isPresent());
