@@ -2,7 +2,9 @@ package ru.edu.database.repository;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -24,5 +26,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
     """,
     nativeQuery = true)
   List<User> findByUsername(String username);
+
+  @Modifying(clearAutomatically = true, flushAutomatically = true)
+  @Query("""
+    update User u
+    set u.role = :role
+    where u.id in (:ids)
+    """)
+  int updateRole(Role role, Long... ids);
 
 }
