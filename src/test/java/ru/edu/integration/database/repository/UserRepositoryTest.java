@@ -8,8 +8,10 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.TypedSort;
 import ru.edu.database.entity.Role;
@@ -31,8 +33,16 @@ class UserRepositoryTest {
     // вторая страница (отсчет от 0), размер 2, сортировка выше
     Pageable pageable = PageRequest.of(1, 2, sort);
 
-    var users = userRepository.findAllBy(pageable);
-    Assertions.assertThat(users).hasSize(2);
+    Page<User> userSlice = userRepository.findAllBy(pageable);
+    Assertions.assertThat(userSlice).hasSize(2);
+    userSlice.forEach(user -> System.out.println(user.getId()));
+
+    // перебираем страницы
+    while (userSlice.hasNext()) {
+      // userSlice уже содержит next page (PageRequest.of(2 и тд, 2, sort))
+      userSlice = userRepository.findAllBy(userSlice.nextPageable());
+      userSlice.forEach(user -> System.out.println(user.getId()));
+    }
   }
 
   @Test
