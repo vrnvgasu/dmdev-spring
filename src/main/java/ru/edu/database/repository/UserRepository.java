@@ -17,6 +17,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
+import ru.edu.dto.PersonalInfo;
+import ru.edu.dto.PersonalInfo2;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -72,5 +74,20 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query(value = "select u from User u",
     countQuery = "select count(distinct u .firstname) from User u")
   Page<User> findAllBy(Pageable pageable);
+
+  // используем конкретный тип для проекции к запросу
+//  List<PersonalInfo> findAllByCompanyId(Integer companyId);
+
+  // подставляем любые проекции
+//  <T> List<T> findAllByCompanyId(Integer companyId, Class<T> clazz);
+
+  @Query(nativeQuery = true,
+    value = """
+      SELECT firstname, 
+      lastname, 
+      birth_date as birthDate 
+      FROM users WHERE company_id = :companyId
+      """)
+  List<PersonalInfo2> findAllByCompanyId(Integer companyId);
 
 }

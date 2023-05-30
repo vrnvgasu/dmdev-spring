@@ -17,6 +17,8 @@ import org.springframework.data.domain.Sort.TypedSort;
 import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
 import ru.edu.database.repository.UserRepository;
+import ru.edu.dto.PersonalInfo;
+import ru.edu.dto.PersonalInfo2;
 import ru.edu.integration.annotation.IT;
 
 @IT
@@ -24,6 +26,14 @@ import ru.edu.integration.annotation.IT;
 class UserRepositoryTest {
 
   private final UserRepository userRepository;
+
+  @Test
+  void checkProjections() {
+//    List<PersonalInfo> users = userRepository.findAllByCompanyId(1, PersonalInfo.class);
+    List<PersonalInfo2> users = userRepository.findAllByCompanyId(1);
+    Assertions.assertThat(users).hasSize(2);
+    System.out.println(users);
+  }
 
   @Test
   void checkPageable() {
