@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+// name - название; attributeNodes - что подтягиваем
+// @NamedAttributeNode("company") - подятягиваем сущность company
+@NamedEntityGraph(
+  name = "User.company",
+  attributeNodes = @NamedAttributeNode("company")
+)
 @Data
 @ToString(exclude = "userChats")
 @EqualsAndHashCode(of = "username")
@@ -29,7 +37,7 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(name = "users")
-public class User implements BaseEntity<Long>{
+public class User implements BaseEntity<Long> {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

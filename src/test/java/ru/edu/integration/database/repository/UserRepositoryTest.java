@@ -41,7 +41,7 @@ class UserRepositoryTest {
     while (userSlice.hasNext()) {
       // userSlice уже содержит next page (PageRequest.of(2 и тд, 2, sort))
       userSlice = userRepository.findAllBy(userSlice.nextPageable());
-      userSlice.forEach(user -> System.out.println(user.getId()));
+      userSlice.forEach(user -> System.out.println(user.getCompany().getName()));
     }
   }
 
