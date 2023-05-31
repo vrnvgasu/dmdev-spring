@@ -20,7 +20,7 @@ import ru.edu.database.entity.User;
 import ru.edu.dto.PersonalInfo;
 import ru.edu.dto.PersonalInfo2;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long>, FilterUserRepository {
 
   // like с % - это фишка спринга.
   // HQL (обрабатывает SimpleJpaQuery) из коробки это не поддерживает

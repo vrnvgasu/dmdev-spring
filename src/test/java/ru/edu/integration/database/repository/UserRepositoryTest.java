@@ -19,6 +19,7 @@ import ru.edu.database.entity.User;
 import ru.edu.database.repository.UserRepository;
 import ru.edu.dto.PersonalInfo;
 import ru.edu.dto.PersonalInfo2;
+import ru.edu.dto.UserFilter;
 import ru.edu.integration.annotation.IT;
 
 @IT
@@ -26,6 +27,15 @@ import ru.edu.integration.annotation.IT;
 class UserRepositoryTest {
 
   private final UserRepository userRepository;
+
+  @Test
+  void checkCustomImplementation() {
+    UserFilter filter = new UserFilter(
+      null, "ov", LocalDate.now()
+    );
+    List<User> users = userRepository.findAllByUserFilter(filter);
+    System.out.println(users);
+  }
 
   @Test
   void checkProjections() {
