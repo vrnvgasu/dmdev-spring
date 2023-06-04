@@ -15,12 +15,17 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.data.repository.history.RevisionRepository;
 import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
 import ru.edu.dto.PersonalInfo;
 import ru.edu.dto.PersonalInfo2;
 
-public interface UserRepository extends JpaRepository<User, Long>, FilterUserRepository {
+public interface UserRepository extends
+  JpaRepository<User, Long>,
+  FilterUserRepository,
+// сущность, id сущности, тип ревизии
+  RevisionRepository<User, Long, Integer> {
 
   // like с % - это фишка спринга.
   // HQL (обрабатывает SimpleJpaQuery) из коробки это не поддерживает

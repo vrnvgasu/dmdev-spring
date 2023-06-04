@@ -22,6 +22,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+import org.hibernate.envers.RelationTargetAuditMode;
 
 // name - название; attributeNodes - что подтягиваем
 // @NamedAttributeNode("company") - подятягиваем сущность company
@@ -37,6 +40,8 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(name = "users")
+// NOT_AUDITED - не аудировать связь на одну сущность
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 public class User extends AuditingEntity<Long> {
 
   @Id
@@ -62,6 +67,8 @@ public class User extends AuditingEntity<Long> {
 
   @Builder.Default
   @OneToMany(mappedBy = "user")
+  // для списков надо вручную указывать, чтобы не аудирвоать
+  @NotAudited
   private List<UserChat> userChats = new ArrayList<>();
 
 }

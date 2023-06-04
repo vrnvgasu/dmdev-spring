@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.TypedSort;
+import org.springframework.data.history.Revision;
+import org.springframework.data.history.Revisions;
+import org.springframework.test.annotation.Commit;
 import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
 import ru.edu.database.repository.UserRepository;
@@ -29,11 +33,15 @@ class UserRepositoryTest {
   private final UserRepository userRepository;
 
   @Test
+//  @Commit
   void checkAuditing() {
     var ivan = userRepository.findById(1L).get();
     ivan.setBirthDate(ivan.getBirthDate().plusYears(1));
     userRepository.flush();
     System.out.println();
+
+    Revisions<Integer, User> revisions = userRepository.findRevisions(1L);
+    System.out.println(revisions);
   }
 
   @Test
