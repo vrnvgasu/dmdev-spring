@@ -33,6 +33,12 @@ class UserRepositoryTest {
   private final UserRepository userRepository;
 
   @Test
+  void checkJdbcTemplate() {
+    var users = userRepository.findAllByCompanyIdAndRole(1, Role.USER);
+    System.out.println(users);
+  }
+
+  @Test
 //  @Commit
   void checkAuditing() {
     var ivan = userRepository.findById(1L).get();

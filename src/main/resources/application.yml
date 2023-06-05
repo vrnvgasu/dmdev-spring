@@ -28,6 +28,8 @@ logging:
     ru.edu.database.pool.ConnectionPool: INFO
     # INFO для логгера из пакета
     ru.edu.database.pool: INFO
+    # логируем запросы из JdbcTemplate
+    org.springframework.jdbc.core: TRACE
   file:
     name: my_log.log
 #    в корень проекта
