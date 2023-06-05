@@ -6,10 +6,14 @@ import ru.edu.database.entity.User;
 import ru.edu.dto.PersonalInfo;
 import ru.edu.dto.UserFilter;
 
-public interface FilterUserRepository  {
+public interface FilterUserRepository {
 
   List<User> findAllByUserFilter(UserFilter filter);
 
   List<PersonalInfo> findAllByCompanyIdAndRole(Integer companyId, Role role);
+
+  void updateCompanyAndRole(List<User> users);
+
+  void updateCompanyAndRoleNamed(List<User> users);
 
 }

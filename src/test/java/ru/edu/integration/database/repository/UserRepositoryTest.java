@@ -33,6 +33,13 @@ class UserRepositoryTest {
   private final UserRepository userRepository;
 
   @Test
+  void checkBatch() {
+    List<User> users = userRepository.findAll();
+    userRepository.updateCompanyAndRole(users);
+    System.out.println();
+  }
+
+  @Test
   void checkJdbcTemplate() {
     var users = userRepository.findAllByCompanyIdAndRole(1, Role.USER);
     System.out.println(users);
