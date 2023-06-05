@@ -15,6 +15,7 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.history.RevisionRepository;
 import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
@@ -25,7 +26,8 @@ public interface UserRepository extends
   JpaRepository<User, Long>,
   FilterUserRepository,
 // сущность, id сущности, тип ревизии
-  RevisionRepository<User, Long, Integer> {
+  RevisionRepository<User, Long, Integer>,
+  QuerydslPredicateExecutor<User> {
 
   // like с % - это фишка спринга.
   // HQL (обрабатывает SimpleJpaQuery) из коробки это не поддерживает
