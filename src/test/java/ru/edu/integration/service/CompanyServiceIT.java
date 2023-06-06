@@ -12,16 +12,16 @@ import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
 import ru.edu.config.DatabaseProperties;
 import ru.edu.dto.CompanyReadDto;
+import ru.edu.integration.IntegrationTestBase;
 import ru.edu.integration.annotation.IT;
 import ru.edu.service.CompanyService;
 
 //@ActiveProfiles("test")
 //@SpringBootTest
-@IT // добавили свою аннотацию, чтобы сократить код
 @RequiredArgsConstructor // DI через конструктор
 // можно заменить на spring.test.constructor.autowire.mode=all
 //@TestConstructor(autowireMode = AutowireMode.ALL)
-public class CompanyServiceIT {
+public class CompanyServiceIT extends IntegrationTestBase {
 
   private static final Integer COMPANY_ID = 1;
 

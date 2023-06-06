@@ -1,36 +1,31 @@
 package ru.edu.integration.database.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.TypedSort;
-import org.springframework.data.history.Revision;
 import org.springframework.data.history.Revisions;
-import org.springframework.test.annotation.Commit;
 import org.springframework.test.context.jdbc.Sql;
 import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
 import ru.edu.database.repository.UserRepository;
-import ru.edu.dto.PersonalInfo;
 import ru.edu.dto.PersonalInfo2;
 import ru.edu.dto.UserFilter;
-import ru.edu.integration.annotation.IT;
+import ru.edu.integration.IntegrationTestBase;
 
-@IT
-@Sql({"classpath:sql/data.sql"})
 @RequiredArgsConstructor
-class UserRepositoryTest {
+class UserRepositoryTest extends IntegrationTestBase {
 
   private final UserRepository userRepository;
 

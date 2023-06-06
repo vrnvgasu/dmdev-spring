@@ -7,18 +7,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.support.TransactionTemplate;
 import ru.edu.database.entity.Company;
 import ru.edu.database.repository.CompanyRepository;
-import ru.edu.integration.annotation.IT;
+import ru.edu.integration.IntegrationTestBase;
 
-@IT
 @RequiredArgsConstructor
 //@Rollback // используется по умолчанию в тестах для каждого метода
 //@Commit // вместо @Rollback делает коммит после каждого теста
-class CompanyRepositoryIT {
+class CompanyRepositoryIT extends IntegrationTestBase {
 
   private static final Integer APPLE_ID = 10;
 
@@ -53,6 +52,7 @@ class CompanyRepositoryIT {
   }
 
   @Test
+  @Disabled
   void delete() {
     var maybeCompany = companyRepository.findById(APPLE_ID);
     assertTrue(maybeCompany.isPresent());

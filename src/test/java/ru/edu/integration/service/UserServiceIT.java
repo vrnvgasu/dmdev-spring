@@ -7,16 +7,16 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import ru.edu.database.pool.ConnectionPool;
+import ru.edu.integration.IntegrationTestBase;
 import ru.edu.integration.annotation.IT;
 import ru.edu.service.UserService;
 
-// в @IT подставили @SpringBootTest(classes = TestApplicationRunner.class)
-@IT
+
 @RequiredArgsConstructor
 // вручную пересоздаем контекст после каждого метода
 // (можно нам классом и методом использовать)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class UserServiceIT {
+public class UserServiceIT extends IntegrationTestBase {
 
   private final UserService userService;
 
