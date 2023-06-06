@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort.TypedSort;
 import org.springframework.data.history.Revision;
 import org.springframework.data.history.Revisions;
 import org.springframework.test.annotation.Commit;
+import org.springframework.test.context.jdbc.Sql;
 import ru.edu.database.entity.Role;
 import ru.edu.database.entity.User;
 import ru.edu.database.repository.UserRepository;
@@ -27,6 +28,7 @@ import ru.edu.dto.UserFilter;
 import ru.edu.integration.annotation.IT;
 
 @IT
+@Sql({"classpath:sql/data.sql"})
 @RequiredArgsConstructor
 class UserRepositoryTest {
 
