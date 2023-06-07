@@ -36,6 +36,12 @@ logging:
     path: /
 
 spring:
+  mvc:
+    view:
+      # храним все jsp страницы в /WEB-INF/jsp/
+      prefix: /WEB-INF/jsp/
+      # все странички фронта с расширением .jsp
+      suffix: .jsp
 #  минимальные настройки для jpa
   datasource:
     url: jdbc:postgresql://localhost:5439/db_dmdev_spring
