@@ -6,7 +6,8 @@
 </head>
 <body>
 
-<h1>Hello World!</h1>
+<%--Под капотом вызове user.getUsername()--%>
+<h1>Hello ${sessionScope.user.username}</h1>
 
 </body>
 </html>

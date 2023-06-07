@@ -10,18 +10,30 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import ru.edu.database.repository.CompanyRepository;
+import ru.edu.dto.UserReadDto;
 
 @Controller // @Controller - это компонент
 @RequestMapping("/api/v1") // общий префикс к uri
+@SessionAttributes({"user"})
 public class GreetingController {
+
+  @GetMapping("/hello")
+  public ModelAndView hello(ModelAndView modelAndView, HttpServletRequest request) {
+//    request.getSession().setAttribute("user", new UserReadDto(1L, "Ivan"));
+    modelAndView.setViewName("greeting/hello");
+    modelAndView.addObject("user", new UserReadDto(1L, "Ivan"));
+    return modelAndView;
+  }
 
   // HandlerMethodArgumentResolver позволяет делать DI многих объектов
   // в методы контроллера. Можно вставлять request, response и любой бин
 //  @RequestMapping(value = "/hello", method = RequestMethod.GET)
   @GetMapping("/hello/{id}")
-  public ModelAndView hello(ModelAndView modelAndView,
+  public ModelAndView hello2(ModelAndView modelAndView,
     HttpServletRequest request, @RequestParam(value = "age", required = false) Integer age,
     @RequestHeader("accept") String accept,
     @CookieValue("JSESSIONID") String jsessionId,
@@ -37,7 +49,8 @@ public class GreetingController {
 
 //  @RequestMapping(value = "/bye", method = RequestMethod.GET)
   @GetMapping("/bye")
-  public ModelAndView bye(ModelAndView modelAndView) {
+  public ModelAndView bye(ModelAndView modelAndView,
+    @SessionAttribute("user") UserReadDto user) {
     modelAndView.setViewName("greeting/bye");
     return modelAndView;
   }
