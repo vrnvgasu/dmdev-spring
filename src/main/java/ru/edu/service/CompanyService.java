@@ -29,7 +29,7 @@ public class CompanyService {
         // вызываем свой кастомный ивент EntityEvent
         eventPublisher.publishEvent(new EntityEvent(entity, AccessType.READ));
 
-        return new CompanyReadDto(entity.getId());
+        return new CompanyReadDto(entity.getId(), null);
       });
   }
 

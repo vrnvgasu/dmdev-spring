@@ -34,7 +34,7 @@ public class CompanyServiceIT extends IntegrationTestBase {
 
     Assertions.assertTrue(actualResult.isPresent());
 
-    var expectedResult = new CompanyReadDto(COMPANY_ID);
+    var expectedResult = new CompanyReadDto(COMPANY_ID, null);
     actualResult.ifPresent(actual -> assertEquals(expectedResult, actualResult.get()));
 
     System.out.println(databaseProperties);
