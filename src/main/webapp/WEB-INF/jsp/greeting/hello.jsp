@@ -7,7 +7,8 @@
 <body>
 
 <%--Под капотом вызове user.getUsername()--%>
-<h1>Hello ${sessionScope.user.username}</h1>
+<%--<h1>Hello ${sessionScope.user.username}</h1>--%>
+<h1>Hello ${requestScope.userReadDto.username}</h1>
 
 </body>
 </html>
