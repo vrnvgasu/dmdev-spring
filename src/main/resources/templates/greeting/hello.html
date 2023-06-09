@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Hello</title>
+</head>
+<body>
+
+<h1>
+<!--По умолчанию все requestScope. Если данные из sessionScope, то уже надо указывать:
+${sessionScope.user.username}-->
+  <span th:text="|Hello ${userReadDto.username}!|">DUMMY TEXT</span>
+</h1>
+
+</body>
+</html>
