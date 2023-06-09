@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.edu.database.entity.Role;
 import ru.edu.dto.UserCreateEditDto;
+import ru.edu.dto.UserFilter;
 import ru.edu.service.CompanyService;
 import ru.edu.service.UserService;
 
@@ -26,9 +27,8 @@ public class UserController {
   private final CompanyService companyService;
 
   @GetMapping
-  public String findAll(Model model) {
-    model.addAttribute("users", userService.findAll());
-//        model.addAttribute("users", userService.findAll(filter));
+  public String findAll(Model model, UserFilter filter) {
+    model.addAttribute("users", userService.findAll(filter));
     return "user/users";
   }
 

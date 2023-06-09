@@ -9,6 +9,7 @@ import ru.edu.database.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
 import ru.edu.dto.UserCreateEditDto;
+import ru.edu.dto.UserFilter;
 import ru.edu.dto.UserReadDto;
 import ru.edu.mapper.UserCreateEditMapper;
 import ru.edu.mapper.UserReadMapper;
@@ -21,6 +22,12 @@ public class UserService {
   private final UserRepository userRepository;
   private final UserReadMapper userReadMapper;
   private final UserCreateEditMapper userCreateEditMapper;
+
+  public List<UserReadDto> findAll(UserFilter filter) {
+    return userRepository.findAllByUserFilter(filter).stream()
+      .map(userReadMapper::map)
+      .toList();
+  }
 
   public List<UserReadDto> findAll() {
     return userRepository.findAll().stream()
