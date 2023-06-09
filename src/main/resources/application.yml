@@ -49,6 +49,7 @@ spring:
     password: qwerty
     driverClassName: org.postgresql.Driver
   jpa:
+    openInView: false
     properties:
       # опциональные настройки для hibernate
       hibernate:
