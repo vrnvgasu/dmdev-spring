@@ -10,7 +10,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
   @Override
   public void addFormatters(FormatterRegistry registry) {
-    registry.addConverter(StringToLocalDateConverter.INSTANCE);
+//    registry.addConverter(StringToLocalDateConverter.INSTANCE);
   }
 
 }

@@ -1,8 +1,14 @@
 package ru.edu.service;
 
+import static ru.edu.database.entity.QUser.user;
+
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.edu.database.querydsl.QPredicates;
 import ru.edu.database.repository.CompanyRepository;
 import ru.edu.database.repository.UserRepository;
 
@@ -23,10 +29,15 @@ public class UserService {
   private final UserReadMapper userReadMapper;
   private final UserCreateEditMapper userCreateEditMapper;
 
-  public List<UserReadDto> findAll(UserFilter filter) {
-    return userRepository.findAllByUserFilter(filter).stream()
-      .map(userReadMapper::map)
-      .toList();
+  public Page<UserReadDto> findAll(UserFilter filter, Pageable pageable) {
+    Predicate predicate = QPredicates.builder()
+      .add(filter.firstname(), user.firstname::containsIgnoreCase)
+      .add(filter.lastname(), user.lastname::containsIgnoreCase)
+      .add(filter.birthDate(), user.birthDate::before)
+      .build();
+
+    return userRepository.findAll(predicate, pageable)
+      .map(userReadMapper::map);
   }
 
   public List<UserReadDto> findAll() {

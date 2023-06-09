@@ -1,6 +1,8 @@
 package ru.edu.http.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.edu.database.entity.Role;
+import ru.edu.dto.PageResponse;
 import ru.edu.dto.UserCreateEditDto;
 import ru.edu.dto.UserFilter;
+import ru.edu.dto.UserReadDto;
 import ru.edu.service.CompanyService;
 import ru.edu.service.UserService;
 
@@ -27,8 +31,11 @@ public class UserController {
   private final CompanyService companyService;
 
   @GetMapping
-  public String findAll(Model model, UserFilter filter) {
-    model.addAttribute("users", userService.findAll(filter));
+  // делаем DI Pageable прямо из запроса
+  public String findAll(Model model, UserFilter filter, Pageable pageable) {
+    Page<UserReadDto> page = userService.findAll(filter, pageable);
+    model.addAttribute("users", PageResponse.of(page));
+    model.addAttribute("filter", filter);
     return "user/users";
   }
 

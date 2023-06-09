@@ -2,8 +2,10 @@ package ru.edu.database.querydsl;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.Expressions;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -28,12 +30,15 @@ public class QPredicates {
 
   // логическое И
   public Predicate build() {
-    return ExpressionUtils.allOf(predicates);
+    // если в условие ничего не пришло, то подставляем условие true=true
+    return Optional.ofNullable(ExpressionUtils.allOf(predicates))
+      .orElseGet(() -> Expressions.asBoolean(true).isTrue());
   }
 
   // логическое ИЛИ
   public Predicate buildOr() {
-    return ExpressionUtils.anyOf(predicates);
+    return Optional.ofNullable(ExpressionUtils.anyOf(predicates))
+      .orElseGet(() -> Expressions.asBoolean(true).isTrue());
   }
 
 }
