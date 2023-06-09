@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
+import ru.edu.database.entity.Role;
 import ru.edu.dto.UserCreateEditDto;
+import ru.edu.service.CompanyService;
 import ru.edu.service.UserService;
 
 @Controller
@@ -21,9 +22,11 @@ public class UserController {
 
   private final UserService userService;
 
+  private final CompanyService companyService;
+
   @GetMapping
   public String findAll(Model model) {
-        model.addAttribute("users", userService.findAll());
+    model.addAttribute("users", userService.findAll());
 //        model.addAttribute("users", userService.findAll(filter));
     return "user/users";
   }
@@ -33,6 +36,8 @@ public class UserController {
     return userService.findById(id)
       .map(user -> {
         model.addAttribute("user", user);
+        model.addAttribute("roles", Role.values());
+        model.addAttribute("companies", companyService.findAll());
         return "user/user";
       })
       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
