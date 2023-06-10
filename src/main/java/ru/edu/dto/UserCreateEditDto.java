@@ -7,9 +7,13 @@ import javax.validation.constraints.Size;
 import lombok.Value;
 import lombok.experimental.FieldNameConstants;
 import ru.edu.database.entity.Role;
+import ru.edu.validation.UserInfo;
+import ru.edu.validation.group.CreateClass;
+import ru.edu.validation.group.UpdateClass;
 
 @Value
 @FieldNameConstants
+@UserInfo(groups = UpdateClass.class)
 public class UserCreateEditDto {
 
   @Email
@@ -18,11 +22,9 @@ public class UserCreateEditDto {
   //  @DateTimeFormat(pattern = "yyyy-MM-dd")
   LocalDate birthDate;
 
-  @NotNull
   @Size(min = 3, max = 64)
   String firstname;
 
-  @NotNull
   String lastname;
 
   Role role;

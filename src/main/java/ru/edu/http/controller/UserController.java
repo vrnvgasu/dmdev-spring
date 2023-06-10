@@ -1,6 +1,7 @@
 package ru.edu.http.controller;
 
 import javax.validation.Valid;
+import javax.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,8 @@ import ru.edu.dto.UserFilter;
 import ru.edu.dto.UserReadDto;
 import ru.edu.service.CompanyService;
 import ru.edu.service.UserService;
+import ru.edu.validation.group.CreateClass;
+import ru.edu.validation.group.UpdateClass;
 
 @Controller
 @RequestMapping("/users")
@@ -64,7 +67,7 @@ public class UserController {
 
   @PostMapping
 //  @ResponseStatus(HttpStatus.CREATED)
-  public String create(@ModelAttribute @Validated UserCreateEditDto user,
+  public String create(@ModelAttribute @Validated({Default.class, CreateClass.class}) UserCreateEditDto user,
     BindingResult bindingResult, // BindingResult надо ставить сразу за валидацией DTO
     RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -77,7 +80,8 @@ public class UserController {
 
   //    @PutMapping("/{id}")
   @PostMapping("/{id}/update")
-  public String update(@PathVariable("id") Long id, @ModelAttribute @Validated UserCreateEditDto user) {
+  public String update(@PathVariable("id") Long id, 
+    @ModelAttribute @Validated({Default.class, UpdateClass.class }) UserCreateEditDto user) {
     return userService.update(id, user)
       .map(it -> "redirect:/users/{id}")
       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
