@@ -4,8 +4,10 @@ import javax.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -49,6 +51,24 @@ public class UserRestController {
     return PageResponse.of(page);
   }
 
+//  @GetMapping(value = "/{id}/avatar", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+//  // возвращаем массив байт
+//  public byte[] findAvatar(@PathVariable("id") Long id) {
+//    return userService.findAvatar(id)
+//      .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//  }
+
+  @GetMapping("/{id}/avatar")
+  // возвращаем массив байт
+  public ResponseEntity<byte[]> findAvatar(@PathVariable("id") Long id) {
+    return userService.findAvatar(id)
+      .map(content -> ResponseEntity.ok()
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
+        .contentLength(content.length)
+        .body(content))
+      .orElseGet(ResponseEntity.notFound()::build);
+  }
+
   @GetMapping("/{id}")
   public UserReadDto findById(@PathVariable("id") Long id) {
     return userService.findById(id)
@@ -68,12 +88,19 @@ public class UserRestController {
       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
   }
 
+//  @DeleteMapping("/{id}")
+//  @ResponseStatus(HttpStatus.NO_CONTENT) // 204
+//  public void delete(@PathVariable("id") Long id) {
+//    if (!userService.delete(id)) {
+//      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+//    }
+//  }
+
   @DeleteMapping("/{id}")
-  @ResponseStatus(HttpStatus.NO_CONTENT) // 204
-  public void delete(@PathVariable("id") Long id) {
-    if (!userService.delete(id)) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-    }
+  public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    return userService.delete(id) ?
+      ResponseEntity.noContent().build() :
+      ResponseEntity.notFound().build();
   }
 
 }

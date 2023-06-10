@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import ru.edu.database.entity.User;
 import ru.edu.database.querydsl.QPredicates;
 import ru.edu.database.repository.CompanyRepository;
 import ru.edu.database.repository.UserRepository;
@@ -52,6 +54,14 @@ public class UserService {
   public Optional<UserReadDto> findById(Long id) {
     return userRepository.findById(id)
       .map(userReadMapper::map);
+  }
+
+  public Optional<byte[]> findAvatar(Long id) {
+    return userRepository.findById(id)
+      .map(User::getImage) // взяли название картинки
+      .filter(StringUtils::hasText) // идем дальше, если название существует
+      .flatMap(imageService::get);
+
   }
 
   @Transactional

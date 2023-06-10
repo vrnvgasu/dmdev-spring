@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +37,17 @@ public class ImageService {
         StandardOpenOption.TRUNCATE_EXISTING
       );
     }
+  }
+
+  // сразу возвращаем массив байт
+  // подходит для небольших файлов. На видео упадет
+  @SneakyThrows
+  public Optional<byte[]> get(String imagePath) {
+    Path fullImagePath = Path.of(bucket, imagePath);
+
+    return Files.exists(fullImagePath)
+      ? Optional.of(Files.readAllBytes(fullImagePath))
+      : Optional.empty();
   }
 
 }
