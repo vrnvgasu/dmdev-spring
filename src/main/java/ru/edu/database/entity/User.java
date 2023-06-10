@@ -61,6 +61,8 @@ public class User extends AuditingEntity<Long> {
   @Enumerated(EnumType.STRING) // отображаем строкой
   private Role role;
 
+  private String image;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "company_id")
   private Company company;

@@ -1,9 +1,12 @@
 package ru.edu.mapper;
 
+import static java.util.function.Predicate.not;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import org.springframework.web.multipart.MultipartFile;
 import ru.edu.database.entity.Company;
 import ru.edu.database.entity.User;
 import ru.edu.database.repository.CompanyRepository;
@@ -36,6 +39,11 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
     user.setBirthDate(object.getBirthDate());
     user.setRole(object.getRole());
     user.setCompany(getCompany(object.getCompanyId()));
+
+    // сохраним название картинки, только если она передана и не пустая
+    Optional.ofNullable(object.getImage())
+      .filter(not(MultipartFile::isEmpty))
+      .ifPresent(image -> user.setImage(image.getOriginalFilename()));
   }
 
   public Company getCompany(Integer companyId) {

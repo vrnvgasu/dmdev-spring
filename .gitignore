@@ -2,3 +2,4 @@
 target/
 docker_dmdev/data/
 *.log
+images/

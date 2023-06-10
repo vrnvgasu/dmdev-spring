@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Value;
 import lombok.experimental.FieldNameConstants;
+import org.springframework.web.multipart.MultipartFile;
 import ru.edu.database.entity.Role;
 import ru.edu.validation.UserInfo;
 import ru.edu.validation.group.CreateClass;
@@ -30,5 +31,7 @@ public class UserCreateEditDto {
   Role role;
 
   Integer companyId;
+
+  MultipartFile image;
 
 }
