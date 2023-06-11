@@ -2,6 +2,7 @@ package ru.edu.dto;
 
 import java.time.LocalDate;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Value;
@@ -19,6 +20,9 @@ public class UserCreateEditDto {
 
   @Email
   String username;
+
+  @NotBlank(groups = CreateClass.class)
+  String rawPassword;
 
   //  @DateTimeFormat(pattern = "yyyy-MM-dd")
   LocalDate birthDate;

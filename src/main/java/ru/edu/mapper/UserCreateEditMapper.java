@@ -3,9 +3,11 @@ package ru.edu.mapper;
 import static java.util.function.Predicate.not;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ru.edu.database.entity.Company;
 import ru.edu.database.entity.User;
@@ -17,6 +19,9 @@ import ru.edu.dto.UserCreateEditDto;
 public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
 
   private final CompanyRepository companyRepository;
+
+  // создали бин в SecurityConfiguration
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public User map(UserCreateEditDto fromObject, User toObject) {
@@ -40,6 +45,11 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
     user.setRole(object.getRole());
     user.setCompany(getCompany(object.getCompanyId()));
 
+    Optional.ofNullable(object.getRawPassword())
+      .filter(StringUtils::hasText)
+      .map(passwordEncoder::encode)
+      .ifPresent(user::setPassword);
+
     // сохраним название картинки, только если она передана и не пустая
     Optional.ofNullable(object.getImage())
       .filter(not(MultipartFile::isEmpty))
@@ -51,4 +61,5 @@ public class UserCreateEditMapper implements Mapper<UserCreateEditDto, User> {
       .flatMap(companyRepository::findById)
       .orElse(null);
   }
+
 }

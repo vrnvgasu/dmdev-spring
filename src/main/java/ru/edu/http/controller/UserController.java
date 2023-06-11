@@ -69,18 +69,21 @@ public class UserController {
   public String create(@ModelAttribute @Validated({Default.class, CreateClass.class}) UserCreateEditDto user,
     BindingResult bindingResult, // BindingResult надо ставить сразу за валидацией DTO
     RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("user", user);
-            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-            return "redirect:/users/registration";
-        }
-    return "redirect:/users/" + userService.create(user).getId();
+    if (bindingResult.hasErrors()) {
+      redirectAttributes.addFlashAttribute("user", user);
+      redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+      return "redirect:/users/registration";
+    }
+
+    userService.create(user);
+
+    return "redirect:/login";
   }
 
   //    @PutMapping("/{id}")
   @PostMapping("/{id}/update")
-  public String update(@PathVariable("id") Long id, 
-    @ModelAttribute @Validated({Default.class, UpdateClass.class }) UserCreateEditDto user) {
+  public String update(@PathVariable("id") Long id,
+    @ModelAttribute @Validated({Default.class, UpdateClass.class}) UserCreateEditDto user) {
     return userService.update(id, user)
       .map(it -> "redirect:/users/{id}")
       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
