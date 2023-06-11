@@ -58,6 +58,8 @@ public class User extends AuditingEntity<Long> {
 
   private String lastname;
 
+  private String password;
+
   @Enumerated(EnumType.STRING) // отображаем строкой
   private Role role;
 

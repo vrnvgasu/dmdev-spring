@@ -39,13 +39,15 @@ public interface UserRepository extends
   List<User> findAllBy(String firstName, String lastName);
 
   // обычно нативные запросы (обрабатывает NativeJpaQuery) используют для проекций
-  @Query(value = """
-    SELECT u.* 
-    FROM users u 
-    WHERE u.username = :username
-    """,
-    nativeQuery = true)
-  List<User> findByUsername(String username);
+//  @Query(value = """
+//    SELECT u.*
+//    FROM users u
+//    WHERE u.username = :username
+//    """,
+//    nativeQuery = true)
+//  List<User> findByUsername(String username);
+
+  Optional<User> findByUsername(String username);
 
   @Modifying(clearAutomatically = true, flushAutomatically = true)
   @Query("""
