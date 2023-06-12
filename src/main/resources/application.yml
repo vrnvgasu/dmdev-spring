@@ -36,6 +36,14 @@ logging:
     path: /
 
 spring:
+  springdoc:
+    swagger-ui:
+      oauth:
+        client-id: 580699705591-3f8av2d393f39g4jn7clgv61tgja1iik.apps.googleusercontent.com
+        client-secret: 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
+        scopes: openid,email,profile
+      # указывали, как второй redirect при создании приложения
+      oauth2-redirect-url: http://localhost:8080/swagger-ui/oauth2-redirect.html
   security:
     oauth2:
       client:
