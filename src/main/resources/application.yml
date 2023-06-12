@@ -36,6 +36,15 @@ logging:
     path: /
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 580699705591-3f8av2d393f39g4jn7clgv61tgja1iik.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: http://localhost:8080/login/oauth2/code/google
+            scope: openid,email,profile
   mvc:
     format:
       date: iso

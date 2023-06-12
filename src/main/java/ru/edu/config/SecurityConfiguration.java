@@ -40,6 +40,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       // после успешной аутентификации перебрасывать на /users
       .successForwardUrl("/users"));
 
+    // подключили авторизацию по OAuth2
+    http.oauth2Login(config -> config
+      .loginPage("/login")
+      .defaultSuccessUrl("/users"));
+
     // HTTP-Basic-Authentication с дефолтными настройками
 //    http.httpBasic(Customizer.withDefaults());
   }
