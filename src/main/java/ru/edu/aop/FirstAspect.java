@@ -1,11 +1,13 @@
 package ru.edu.aop;
 
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Aspect
@@ -70,9 +72,26 @@ public class FirstAspect {
   public void anyFindByIdServiceMethod() {
   }
 
-  @Before("anyFindByIdServiceMethod()")
-  public void addLogging() {
-    log.info("invoked findById method");
+//  @Before("anyFindByIdServiceMethod()")
+//  // JoinPoint - точка внедрения
+//  public void addLogging(JoinPoint joinPoint) {
+//    log.info("invoked findById method");
+//  }
+
+  @Before(value = "anyFindByIdServiceMethod() " +
+    "&& args(id) " +    // знаем, что 1 аргумент. Внедрили его в DI метода с типом Long
+    "&& target(service) " +
+    "&& this(serviceProxy)" +
+    "&& @within(transactional)",
+    // argNames - чтобы IDE для старой версии java не ругалось на внедрение названий переменных из аннотации
+    argNames = "joinPoint,id,service,serviceProxy,transactional")
+  // JoinPoint всегда идет первым параметром
+  public void addLogging(JoinPoint joinPoint,
+    Long id,
+    Object service,
+    Object serviceProxy,
+    Transactional transactional) {
+    log.info("invoked findById method in class {}, with id {}", service, id);
   }
 
 }
