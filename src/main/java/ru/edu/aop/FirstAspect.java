@@ -1,12 +1,15 @@
 package ru.edu.aop;
 
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Aspect
+@Slf4j
 @Component // аспект в спринге должен быть бином
 public class FirstAspect {
 
@@ -65,6 +68,11 @@ public class FirstAspect {
 //  @Pointcut("execution(public * findById(*))")
   @Pointcut("execution(public * ru.edu.service.*Service.findById(*))")
   public void anyFindByIdServiceMethod() {
+  }
+
+  @Before("anyFindByIdServiceMethod()")
+  public void addLogging() {
+    log.info("invoked findById method");
   }
 
 }
